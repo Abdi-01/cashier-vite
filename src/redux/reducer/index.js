@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-const globalState= configureStore({
-    reducer:{
-
+import { accountReducer } from "./accountReducer";
+const globalState = configureStore({
+    reducer: {
+        accountReducer
     }
 });
 

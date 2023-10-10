@@ -23,9 +23,11 @@ import { BiCake, BiDrink } from "react-icons/bi";
 import { LuDessert } from "react-icons/lu";
 import { MdFastfood } from "react-icons/md";
 import { PiHamburger } from "react-icons/pi";
+import { useSelector } from "react-redux";
 
 const DashboardPage = () => {
   const [date, setDate] = React.useState(new Date().toLocaleString("id"));
+  const username = useSelector((state) => state.accountReducer.username);
   const [category, setCategory] = React.useState([
     {
       id: 1,
@@ -208,6 +210,7 @@ const DashboardPage = () => {
             </Card>
           </Box>
         </Flex>
+        <Text>Welcome, {username}</Text>
         <Box marginTop={"6"} p={"2"} width={"fit-content"}>
           <CategoryList
             category={category}
