@@ -23,11 +23,13 @@ import { BiCake, BiDrink } from "react-icons/bi";
 import { LuDessert } from "react-icons/lu";
 import { MdFastfood } from "react-icons/md";
 import { PiHamburger } from "react-icons/pi";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { cartAction } from "../../redux/action/cartAction";
 const DashboardPage = () => {
+  const dispatch = useDispatch();
   const [date, setDate] = React.useState(new Date().toLocaleString("id"));
   const username = useSelector((state) => state.accountReducer.username);
+  const cartGlobalState = useSelector((state) => state.cartReducer);
   const [category, setCategory] = React.useState([
     {
       id: 1,
@@ -109,33 +111,33 @@ const DashboardPage = () => {
       category: "Hot",
     },
   ]);
-  const [cart, setCart] = React.useState([]);
+  // const [cart, setCart] = React.useState([]);
 
   const onToCart = (data) => {
-    const idx = cart.findIndex((val) => val.id === data.id);
-    const temp = [...cart];
+    const idx = cartGlobalState.findIndex((val) => val.id === data.id);
+    const temp = [...cartGlobalState];
     if (idx < 0) {
       temp.push({ ...data, qty: 1 });
     } else {
-      temp[idx].qty = temp[idx].qty + 1;
+      temp[idx] = { ...temp[idx], qty: temp[idx].qty + 1 };
     }
-    setCart(temp);
+    dispatch(cartAction(temp));
   };
 
   const onDelete = (data) => {
-    const idx = cart.findIndex((val) => val.id === data.id);
-    const temp = [...cart];
-    if (temp[idx].qty === 1) {
-      temp.splice(idx, 1);
-    } else {
-      temp[idx].qty = temp[idx].qty - 1;
-    }
-    setCart(temp);
+    // const idx = cart.findIndex((val) => val.id === data.id);
+    // const temp = [...cart];
+    // if (temp[idx].qty === 1) {
+    //   temp.splice(idx, 1);
+    // } else {
+    //   temp[idx].qty = temp[idx].qty - 1;
+    // }
+    // setCart(temp);
   };
 
-  setInterval(() => {
-    setDate(new Date().toLocaleString("id"));
-  });
+  // setInterval(() => {
+  //   setDate(new Date().toLocaleString("id"));
+  // });
 
   return (
     <Flex width={"full"}>
@@ -244,7 +246,7 @@ const DashboardPage = () => {
         </Box>
       </Box>
       <Box
-        display={cart.length === 0 ? "none" : "flex"}
+        display={cartGlobalState.length === 0 ? "none" : "flex"}
         flexDirection={"column"}
         justifyContent={"space-between"}
         height={"100vh"}
@@ -264,7 +266,7 @@ const DashboardPage = () => {
             </Text>
           </Flex>
           <Box>
-            {cart.map((val, idx) => {
+            {cartGlobalState.map((val, idx) => {
               return (
                 <Box key={val.id} width={"100%"} paddingX={"2"}>
                   <Flex
@@ -323,7 +325,7 @@ const DashboardPage = () => {
             </Text>
             <Text fontWeight={"bold"} fontSize={"xl"}>
               Rp.{" "}
-              {cart
+              {cartGlobalState
                 .reduce((prev, curr) => prev + curr.qty * curr.price, 0)
                 .toLocaleString("id")}
             </Text>
