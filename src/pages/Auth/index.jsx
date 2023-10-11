@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../redux/action/accountAction";
+import axios from "axios";
 
 const AuthPage = () => {
     const navigate = useNavigate();
@@ -15,8 +16,19 @@ const AuthPage = () => {
     const [isVisible, setIsVisible] = React.useState(false);
 
     const onLogin = () => {
-        localStorage.setItem("auth", JSON.stringify({ username: inUsername, password: inPassword }))
-        dispatch(loginAction({ username: inUsername, password: inPassword }));
+        axios.get(`http://localhost:2023/account?username=${inUsername}&password=${inPassword}`)
+            .then((response) => {
+                console.log("CHECK USER", response.data);
+                if (!response.data.length) {
+                    alert("Account not found");
+                } else {
+                    localStorage.setItem("auth", JSON.stringify(response.data[0]));
+                    dispatch(loginAction(response.data[0]));
+                }
+            }).catch((error) => {
+                console.log(error);
+            })
+
     }
 
     React.useEffect(() => {

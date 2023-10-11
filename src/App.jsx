@@ -6,6 +6,7 @@ import { Container } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginAction } from './redux/action/accountAction'
+import ManageAccountPage from './pages/Manage/Account'
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path='/' element={<AuthPage />} />
         <Route path='/dash' element={<DashboardPage />} />
+        <Route path='/manage/account' element={<ManageAccountPage />} />
       </Routes>
     </Container>
   )

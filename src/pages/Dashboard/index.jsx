@@ -25,6 +25,8 @@ import { MdFastfood } from "react-icons/md";
 import { PiHamburger } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { cartAction } from "../../redux/action/cartAction";
+import axios from "axios";
+import LayoutPage from "../../components/LayoutPage";
 const DashboardPage = () => {
   const dispatch = useDispatch();
   const [date, setDate] = React.useState(new Date().toLocaleString("id"));
@@ -64,55 +66,22 @@ const DashboardPage = () => {
   ]);
   const [selectedCat, setSelectedCat] = React.useState(null);
   const [inSearch, setInSearch] = React.useState("");
-  const [products, setProducts] = React.useState([
-    {
-      id: 1,
-      name: "Burger",
-      price: 12000,
-      stock: 12,
-      img: "https://meatlessfarm.com/wp-content/uploads/2020/02/Meatless-Farm-Ultimate-Meaty-March-Burger-square.jpg",
-      isReady: true,
-      category: "Burger",
-    },
-    {
-      id: 2,
-      name: "Coffee Latte",
-      price: 12000,
-      stock: 12,
-      img: "https://as2.ftcdn.net/v2/jpg/01/32/60/51/1000_F_132605181_LGhweq27AR7L41GILfLJzKPdPf6GsXj4.jpg",
-      isReady: true,
-      category: "Drink",
-    },
-    {
-      id: 3,
-      name: "Arctic Cake",
-      price: 12000,
-      stock: 12,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlAFUgPsElkIAPVTr7KmtfDYxf45ny4uYfBPcV0lnt-NAQCVtSQtBvBcB8SldoUkhUzyM&usqp=CAU",
-      isReady: true,
-      category: "Cake",
-    },
-    {
-      id: 4,
-      name: "French Fries",
-      price: 12000,
-      stock: 12,
-      img: "https://media.istockphoto.com/id/170171626/photo/fried-potato-cubes.jpg?s=612x612&w=0&k=20&c=l79cX_NY-rEoVGSSS3IH6ODtSN7lez0melOBMXKPFjU=",
-      isReady: true,
-      category: "Snack",
-    },
-    {
-      id: 5,
-      name: "Steak",
-      price: 12000,
-      stock: 12,
-      img: "https://www.yourhomebasedmom.com/wp-content/uploads/2020/06/how-to-cook-medium-rare-steak-square.jpg",
-      isReady: true,
-      category: "Hot",
-    },
-  ]);
-  // const [cart, setCart] = React.useState([]);
+  const [products, setProducts] = React.useState([]);
 
+  const getProducts = () => {
+    axios.get(`http://localhost:2023/products`)
+      .then((response) => {
+        console.log(response.data);
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
+
+  React.useEffect(() => {
+    getProducts();
+  }, []);
   const onToCart = (data) => {
     const idx = cartGlobalState.findIndex((val) => val.id === data.id);
     const temp = [...cartGlobalState];
@@ -140,8 +109,7 @@ const DashboardPage = () => {
   // });
 
   return (
-    <Flex width={"full"}>
-      <SideNav />
+    <LayoutPage>
       <Box padding={{ base: "4" }} maxWidth={"full"} flex={1}>
         <Flex
           flexDirection={{ base: "column", md: "row" }}
@@ -335,7 +303,7 @@ const DashboardPage = () => {
           </Button>
         </Box>
       </Box>
-    </Flex>
+    </LayoutPage>
   );
 };
 
