@@ -41,7 +41,6 @@ const AuthPage = () => {
           alert("Account not found");
         } else {
           localStorage.setItem("auth", JSON.stringify(response.data[0]));
-          //   dispatch(loginAction(response.data[0]));
           dispatch(login(response.data[0]));
         }
       })
