@@ -24,7 +24,7 @@ import { LuDessert } from "react-icons/lu";
 import { MdFastfood } from "react-icons/md";
 import { PiHamburger } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import { cartAction } from "../../redux/action/cartAction";
+// import { cartAction } from "../../redux/action/cartAction";
 import axios from "axios";
 import LayoutPage from "../../components/LayoutPage";
 const DashboardPage = () => {
@@ -91,7 +91,7 @@ const DashboardPage = () => {
     } else {
       temp[idx] = { ...temp[idx], qty: temp[idx].qty + 1 };
     }
-    dispatch(cartAction(temp));
+    // dispatch(cartAction(temp));
   };
 
   const onDelete = (data) => {

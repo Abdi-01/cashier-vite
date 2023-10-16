@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAction } from "../../redux/action/accountAction";
+// import { loginAction } from "../../redux/action/accountAction";
 import axios from "axios";
 import { login } from "../../redux/slice/accountSlice";
 
