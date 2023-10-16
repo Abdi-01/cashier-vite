@@ -30,7 +30,7 @@ import LayoutPage from "../../components/LayoutPage";
 const DashboardPage = () => {
   const dispatch = useDispatch();
   const [date, setDate] = React.useState(new Date().toLocaleString("id"));
-  const username = useSelector((state) => state.accountSliceReducer.username);
+  const username = useSelector((state) => state.accountReducer.username);
   const cartGlobalState = useSelector((state) => state.cartReducer);
   const [category, setCategory] = React.useState([
     {

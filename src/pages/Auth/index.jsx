@@ -16,14 +16,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../redux/action/accountAction";
 import axios from "axios";
-import { login } from "../../redux/slice/accountSlice";
 
 const AuthPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => {
-    console.log("cek reducer", state.accountSliceReducer);
-    return state.accountSliceReducer.username;
+    console.log("cek reducer", state.accountReducer);
+    return state.accountReducer.username;
   });
   console.log("CEK SLICE REDUCER", username);
 
@@ -41,8 +40,7 @@ const AuthPage = () => {
           alert("Account not found");
         } else {
           localStorage.setItem("auth", JSON.stringify(response.data[0]));
-          //   dispatch(loginAction(response.data[0]));
-          dispatch(login(response.data[0]));
+          dispatch(loginAction(response.data[0]));
         }
       })
       .catch((error) => {
