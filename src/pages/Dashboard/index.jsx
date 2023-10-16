@@ -30,7 +30,7 @@ import LayoutPage from "../../components/LayoutPage";
 const DashboardPage = () => {
   const dispatch = useDispatch();
   const [date, setDate] = React.useState(new Date().toLocaleString("id"));
-  const username = useSelector((state) => state.accountReducer.username);
+  const username = useSelector((state) => state.accountSliceReducer.username);
   const cartGlobalState = useSelector((state) => state.cartReducer);
   const [category, setCategory] = React.useState([
     {
@@ -69,14 +69,15 @@ const DashboardPage = () => {
   const [products, setProducts] = React.useState([]);
 
   const getProducts = () => {
-    axios.get(`http://localhost:2023/products`)
+    axios
+      .get(`http://localhost:2023/products`)
       .then((response) => {
         console.log(response.data);
         setProducts(response.data);
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   };
 
   React.useEffect(() => {
