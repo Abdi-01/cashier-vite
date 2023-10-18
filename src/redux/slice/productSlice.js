@@ -18,7 +18,7 @@ export const { setProducts } = productSlice.actions;
 export default productSlice.reducer;
 
 // Middleware
-export const getProducts = (query = "") => {
+export const getProducts = (query) => {
   return async (dispatch) => {
     try {
       const resGET = await API_CALL.get(`/products${query ? `${query}` : ""}`);

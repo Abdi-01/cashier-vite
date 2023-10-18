@@ -90,6 +90,7 @@ const DashboardPage = () => {
     console.log(location.search);
     dispatch(getProducts(location.search));
   }, [location.search]);
+
   const onToCart = (data) => {
     const idx = cartGlobalState.findIndex((val) => val.id === data.id);
     const temp = [...cartGlobalState];
