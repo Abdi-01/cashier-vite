@@ -1,7 +1,9 @@
 import React from "react";
 import { Card, CardBody, CardFooter, Flex, Text, Box } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const CategoryList = (props) => {
+  const navigate = useNavigate();
   // return <div style={{ display: "flex", width: "100%", gap: "8px", overflowX: "auto" }}>
   return (
     <Flex
@@ -27,7 +29,10 @@ const CategoryList = (props) => {
                 rounded={"lg"}
               >
                 <CardBody
-                  onClick={() => props.setSelectedCat(null)}
+                  onClick={() => {
+                    props.setSelectedCat(null);
+                    navigate(`/dash`);
+                  }}
                   margin={"2"}
                   cursor={"pointer"}
                   color={"#2F855A"}
@@ -54,7 +59,10 @@ const CategoryList = (props) => {
               rounded={"lg"}
             >
               <CardBody
-                onClick={() => props.setSelectedCat(val)}
+                onClick={() => {
+                  props.setSelectedCat(val);
+                  navigate(`/dash?category=${val.title}`);
+                }}
                 margin={"2"}
                 cursor={"pointer"}
                 _hover={{

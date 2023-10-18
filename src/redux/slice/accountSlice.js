@@ -26,3 +26,14 @@ const accountSlice = createSlice({
 
 export const { login, logout } = accountSlice.actions;
 export default accountSlice.reducer;
+
+// Middleware
+export const keepLogin = () => {
+  return async (dispatch) => {
+    try {
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

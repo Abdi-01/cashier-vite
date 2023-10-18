@@ -27,11 +27,16 @@ import { useDispatch, useSelector } from "react-redux";
 // import { cartAction } from "../../redux/action/cartAction";
 import axios from "axios";
 import LayoutPage from "../../components/LayoutPage";
+import { updateCart } from "../../redux/slice/cartSlice";
+import { getProducts } from "../../redux/slice/productSlice";
+import { useLocation } from "react-router-dom";
 const DashboardPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const [date, setDate] = React.useState(new Date().toLocaleString("id"));
   const username = useSelector((state) => state.accountSliceReducer.username);
-  const cartGlobalState = useSelector((state) => state.cartReducer);
+  const cartGlobalState = useSelector((state) => state.cartSliceReducer.cart);
+  const products = useSelector((state) => state.productSliceReducer.products);
   const [category, setCategory] = React.useState([
     {
       id: 1,
@@ -66,23 +71,25 @@ const DashboardPage = () => {
   ]);
   const [selectedCat, setSelectedCat] = React.useState(null);
   const [inSearch, setInSearch] = React.useState("");
-  const [products, setProducts] = React.useState([]);
+  // const [products, setProducts] = React.useState([]);
 
-  const getProducts = () => {
-    axios
-      .get(`http://localhost:2023/products`)
-      .then((response) => {
-        console.log(response.data);
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const getProducts = () => {
+  //   axios
+  //     .get(`http://localhost:2025/products`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setProducts(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   React.useEffect(() => {
-    getProducts();
-  }, []);
+    // getProducts();
+    console.log(location.search);
+    dispatch(getProducts(location.search));
+  }, [location.search]);
   const onToCart = (data) => {
     const idx = cartGlobalState.findIndex((val) => val.id === data.id);
     const temp = [...cartGlobalState];
@@ -91,18 +98,18 @@ const DashboardPage = () => {
     } else {
       temp[idx] = { ...temp[idx], qty: temp[idx].qty + 1 };
     }
-    // dispatch(cartAction(temp));
+    dispatch(updateCart(temp));
   };
 
   const onDelete = (data) => {
-    // const idx = cart.findIndex((val) => val.id === data.id);
-    // const temp = [...cart];
-    // if (temp[idx].qty === 1) {
-    //   temp.splice(idx, 1);
-    // } else {
-    //   temp[idx].qty = temp[idx].qty - 1;
-    // }
-    // setCart(temp);
+    const idx = cartGlobalState.findIndex((val) => val.id === data.id);
+    const temp = [...cartGlobalState];
+    if (temp[idx].qty === 1) {
+      temp.splice(idx, 1);
+    } else {
+      temp[idx] = { ...temp[idx], qty: temp[idx].qty - 1 };
+    }
+    dispatch(updateCart(temp));
   };
 
   // setInterval(() => {
